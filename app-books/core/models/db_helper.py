@@ -16,7 +16,7 @@ class DatabaseHelper:
             pool_size: int = 5,
             expire_on_commit: bool = False,
             autoflush: bool = False,
-            autocommit: bool = False,
+            autocommit: bool = False
     ) -> None:
         self.engine = create_async_engine(
             url=url,
