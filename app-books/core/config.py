@@ -1,9 +1,9 @@
 from pydantic import BaseModel, PostgresDsn
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class RunConfig(BaseModel):
-    host: str = 'localhost'
+    host: str = '127.0.0.1'
     port: int = 8000
 
 
@@ -16,7 +16,7 @@ class DatabaseConfig(BaseModel):
     echo: bool = False,
     echo_pool: bool = False,
     max_overflow: int = 20,
-    pool_size: int = 20,
+    pool_size: int = 10
     expire_on_commit: bool = False,
     autoflush: bool = False,
     autocommit: bool = False,
