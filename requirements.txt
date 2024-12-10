@@ -1,4 +1,5 @@
 annotated-types==0.7.0
+sqlalchemy[asyncpg]
 anyio==4.7.0
 click==8.1.7
 fastapi==0.115.6
