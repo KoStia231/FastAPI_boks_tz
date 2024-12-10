@@ -16,7 +16,6 @@ class DatabaseHelper:
             pool_size: int = 5,
             expire_on_commit: bool = False,
             autoflush: bool = False,
-            autocommit: bool = False
     ) -> None:
         self.engine = create_async_engine(
             url=url,
@@ -29,7 +28,6 @@ class DatabaseHelper:
             bind=self.engine,
             expire_on_commit=expire_on_commit,
             autoflush=autoflush,
-            autocommit=autocommit
         )
 
     async def dispose(self) -> None:
@@ -47,5 +45,4 @@ db_helper = DatabaseHelper(
     pool_size=se.db.pool_size,
     expire_on_commit=se.db.expire_on_commit,
     autoflush=se.db.autoflush,
-    autocommit=se.db.autocommit,
 )
