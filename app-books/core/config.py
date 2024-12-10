@@ -7,19 +7,26 @@ class RunConfig(BaseModel):
     port: int = 8000
 
 
+class ApiV1Prefix(BaseModel):
+    prefix: str = '/v1'
+    author: str = '/authors'
+    book: str = '/books'
+    borrow: str = '/borrows'
+
+
 class ApiPrefix(BaseModel):
     prefix: str = '/api'
+    v1: ApiV1Prefix = ApiV1Prefix()
 
 
 class DatabaseConfig(BaseModel):
     url: PostgresDsn
-    echo: bool = False,
-    echo_pool: bool = False,
-    max_overflow: int = 20,
+    echo: bool = False
+    echo_pool: bool = False
+    max_overflow: int = 20
     pool_size: int = 10
-    expire_on_commit: bool = False,
-    autoflush: bool = False,
-    autocommit: bool = False,
+    expire_on_commit: bool = False
+    autoflush: bool = False
     naming_convention: dict[str, str] = {
         "ix": "ix_%(column_0_label)s",
         "uq": "uq_%(table_name)s_%(column_0_N_name)s",
