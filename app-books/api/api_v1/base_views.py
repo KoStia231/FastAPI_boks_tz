@@ -1,8 +1,26 @@
 from sqlalchemy.future import select
+from fastapi import HTTPException
 from pydantic import BaseModel
 from typing import Type
 from sqlalchemy.ext.asyncio import AsyncSession
 from core.models.base import Base
+
+
+async def ensure_object_exists(model: Type[Base], session: AsyncSession, object_id: int) -> Base:
+    """
+    Проверяет, существует ли объект с указанным ID.
+    Если объект не найден, выбрасывает HTTPException с кодом 404.
+    Возвращает объект, если он найден.
+    """
+    stmt = select(model).filter(model.id == object_id)
+    result = await session.scalars(stmt)
+    obj = result.first()
+    if not obj:
+        raise HTTPException(
+            status_code=404,
+            detail=f"{model.__name__} with ID {object_id} not found."
+        )
+    return obj
 
 
 async def get_all_object(model: Type[Base], session: AsyncSession):
@@ -12,9 +30,7 @@ async def get_all_object(model: Type[Base], session: AsyncSession):
 
 
 async def get_object_by_id(model: Type[Base], session: AsyncSession, object_id: int):
-    stmt = select(model).filter(model.id == object_id)
-    result = await session.scalars(stmt)
-    return result.first()
+    return await ensure_object_exists(model, session, object_id)
 
 
 async def create_object(model: Type[Base], session: AsyncSession, data: BaseModel):
@@ -25,20 +41,14 @@ async def create_object(model: Type[Base], session: AsyncSession, data: BaseMode
 
 
 async def update_object(model: Type[Base], session: AsyncSession, object_id: int, data: BaseModel):
-    stmt = select(model).filter(model.id == object_id)
-    result = await session.scalars(stmt)
-    obj = result.first()
-    if obj:
-        for key, value in data.dict(exclude_unset=True).items():
-            setattr(obj, key, value)
-        await session.commit()
+    obj = await ensure_object_exists(model, session, object_id)
+    for key, value in data.dict(exclude_unset=True).items():
+        setattr(obj, key, value)
+    await session.commit()
     return obj
 
 
 async def delete_object(model: Type[Base], session: AsyncSession, object_id: int):
-    stmt = select(model).filter(model.id == object_id)
-    result = await session.scalars(stmt)
-    object_record = result.first()
-    if object_record:
-        await session.delete(object_record)
-        await session.commit()
+    obj = await ensure_object_exists(model, session, object_id)
+    await session.delete(obj)
+    await session.commit()
