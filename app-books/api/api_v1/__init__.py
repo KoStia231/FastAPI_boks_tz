@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from .author.urls import router as author_router
 from .book.urls import router as book_router
 from .borrow.urls import router as borrow_router
-from core.config import settings as se
+from core import se
 
 api_v1_router = APIRouter()
 

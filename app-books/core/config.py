@@ -10,7 +10,7 @@ class RunConfig(BaseModel):
 class ApiV1Prefix(BaseModel):
     prefix: str = '/v1'
     author: str = '/authors'
-    book: str = '/books'
+    book: str = '/books.py'
     borrow: str = '/borrows'
 
 

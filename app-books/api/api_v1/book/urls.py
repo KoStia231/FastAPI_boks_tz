@@ -1,13 +1,16 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from core.database import db_helper
-from core.schemas.shemas import BookCreate, BookResponse, BookUpdate
-from core.models import Book
 from api.api_v1.base_views import (
     get_all_object, get_object_by_id,
     create_object, update_object,
     delete_object
+)
+from core.database import db_helper
+from core.models import Book
+from core.schemas import (
+    BookCreate, BookResponse,
+    BookUpdate
 )
 
 router = APIRouter()

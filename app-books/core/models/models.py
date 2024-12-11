@@ -16,7 +16,7 @@ class Author(Base):
 
 
 class Book(Base):
-    __tablename__ = "books"
+    __tablename__ = "books.py"
 
     title: Mapped[str] = mapped_column(String, nullable=False)
     description: Mapped[str | None] = mapped_column(String, nullable=True)
@@ -24,7 +24,7 @@ class Book(Base):
     available_copies: Mapped[int] = mapped_column(nullable=False, default=1)
     initial_copies: Mapped[int] = mapped_column(nullable=False, default=1)
 
-    author: Mapped["Author"] = relationship("Author", back_populates="books")
+    author: Mapped["Author"] = relationship("Author", back_populates="books.py")
     borrows: Mapped[list["Borrow"]] = relationship("Borrow", back_populates="book")
 
 
@@ -37,7 +37,7 @@ def set_initial_copies(mapper, connection, target):
 class Borrow(Base):
     __tablename__ = "borrows"
 
-    book_id: Mapped[int] = mapped_column(ForeignKey("books.id"), nullable=False)
+    book_id: Mapped[int] = mapped_column(ForeignKey("books.py.id"), nullable=False)
     reader_name: Mapped[str] = mapped_column(String, nullable=False)
     borrow_date: Mapped[Date] = mapped_column(Date, nullable=False)
     return_date: Mapped[Date | None] = mapped_column(Date, nullable=True)

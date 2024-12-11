@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from .api_v1 import api_v1_router
-from core.config import settings as se
+from core import se
 
 api_router = APIRouter()
 

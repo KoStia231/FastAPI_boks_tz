@@ -1,13 +1,16 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from core.database import db_helper
-from core.models import Author
-from core.schemas.shemas import AuthorCreate, AuthorResponse, AuthorUpdate
 from api.api_v1.base_views import (
     get_all_object, get_object_by_id,
     create_object, update_object,
     delete_object
+)
+from core.database import db_helper
+from core.models import Author
+from core.schemas import (
+    AuthorCreate, AuthorResponse,
+    AuthorUpdate
 )
 
 router = APIRouter()

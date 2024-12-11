@@ -6,7 +6,7 @@ from sqlalchemy.future import select
 
 from api.api_v1.base_views import ensure_object_exists
 from core.models.models import Borrow, Book
-from core.schemas.shemas import BorrowCreate
+from core.schemas import BorrowCreate
 
 
 async def create_borrow(session: AsyncSession, borrow: BorrowCreate):
