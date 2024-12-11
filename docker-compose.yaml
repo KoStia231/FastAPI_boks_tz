@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+
+  db:
+    image: postgres:latest
+    env_file:
+      - .env.docker
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: >
+      bash -c "
+        echo 'Applying migrations...' &&
+        cd app-books &&
+        alembic upgrade head &&
+        echo 'Start Server...' &&
+        uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+      "
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    env_file:
+      - app-books/.env
+    volumes:
+      - .:/app
+
+volumes:
+  postgres_data:
