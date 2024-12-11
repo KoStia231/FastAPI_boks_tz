@@ -3,3 +3,4 @@ __pycache__/
 .venv
 app-books/.env
 .env.docker
+.DS_Store
