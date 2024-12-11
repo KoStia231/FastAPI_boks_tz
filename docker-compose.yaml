@@ -19,6 +19,7 @@ services:
         cd app-books &&
         alembic upgrade head &&
         echo 'Start Server...' &&
+        echo 'Developer Asmolov Konstantin' && 
         uvicorn main:app --host 0.0.0.0 --port 8000 --reload
       "
     ports:
